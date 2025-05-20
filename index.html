@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Открытка для Лизы 💌</title>
 
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
@@ -16,17 +20,11 @@
     <style>
         :root {
             --primary: #FF85B3;
-            /* Мягкий розовый */
             --secondary: #FFB6D9;
-            /* Ещё более мягкий розовый */
             --accent: #FFE5F1;
-            /* Очень светлый розовый */
             --text: #5A3D5C;
-            /* Тёмно-фиолетовый для контраста */
             --hello-kitty-pink: #FF9EC5;
-            /* Основной цвет Hello Kitty */
             --hello-kitty-red: #FF6B8B;
-            /* Акцентный красный */
         }
 
         @media (prefers-color-scheme: dark) {
@@ -43,7 +41,7 @@
         }
 
         body {
-            font-family: "Montserrat", serif;
+            font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--text);
             display: flex;
             justify-content: center;
@@ -51,60 +49,176 @@
             min-height: 100vh;
             padding: 20px;
             line-height: 1.6;
-            background: linear-gradient(-45deg,
+            background:
+                /* Первый слой - основной градиент */
+                linear-gradient(-45deg,
                     #FFEEF5 0%,
-                    /* Очень светлый розовый */
                     #FFD4E6 25%,
-                    /* Светлый розовый */
                     #FFB6D9 50%,
-                    /* Средний розовый */
                     #FF9EC5 75%,
-                    /* Яркий розовый */
-                    #FFE5F1 100%
-                    /* Светлый оттенок */
-                );
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            overflow: hidden;
+                    #FFE5F1 100%),
+                /* Второй слой - круговой градиент */
+                radial-gradient(circle at 70% 30%,
+                    rgba(255, 214, 230, 0.8) 0%,
+                    rgba(255, 214, 230, 0) 40%),
+                /* Третий слой - световые блики */
+                radial-gradient(circle at 30% 70%,
+                    rgba(255, 255, 255, 0.5) 0%,
+                    rgba(255, 255, 255, 0) 30%);
+
+            background-size:
+                400% 400%,
+                /* Для первого градиента */
+                200% 200%,
+                /* Для второго */
+                150% 150%;
+            /* Для третьего */
+
+            animation:
+                gradientBG 12s ease infinite,
+                parallaxEffect 20s linear infinite,
+                pulseEffect 15s ease-in-out infinite;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         @keyframes gradientBG {
             0% {
-                background-position: 0% 50%;
+                background-position: 0% 50%, 0% 0%, 0% 0%;
             }
 
             50% {
-                background-position: 100% 50%;
+                background-position: 100% 50%, 100% 100%, 100% 100%;
             }
 
             100% {
-                background-position: 0% 50%;
+                background-position: 0% 50%, 0% 0%, 0% 0%;
             }
         }
 
-        /* Стили для интро */
+        @keyframes parallaxEffect {
+
+            0%,
+            100% {
+                background-position:
+                    0% 50%,
+                    0% 0%,
+                    0% 0%;
+            }
+
+            25% {
+                background-position:
+                    0% 50%,
+                    30% 20%,
+                    10% 40%;
+            }
+
+            50% {
+                background-position:
+                    0% 50%,
+                    70% 80%,
+                    60% 30%;
+            }
+
+            75% {
+                background-position:
+                    0% 50%,
+                    40% 60%,
+                    80% 70%;
+            }
+        }
+
+        @keyframes pulseEffect {
+
+            0%,
+            100% {
+                background-size:
+                    400% 400%,
+                    200% 200%,
+                    150% 150%;
+            }
+
+            50% {
+                background-size:
+                    420% 420%,
+                    220% 220%,
+                    170% 170%;
+            }
+        }
+
+        /* Добавим мерцающие частицы */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%,
+                    rgba(255, 255, 255, 0.8) 0%,
+                    transparent 2%) 0 0,
+                radial-gradient(circle at 80% 70%,
+                    rgba(255, 230, 240, 0.8) 0%,
+                    transparent 2%) 0 0;
+            background-size: 200px 200px;
+            animation: sparkle 4s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 0.3;
+                transform: translate(5px, 5px);
+            }
+
+            100% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Общие адаптивные стили */
+        .intro,
+        .card,
+        .final-content {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 16px;
+
+            transition: transform 0.3s ease-out;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+
+        /* Интро */
         .intro {
             text-align: center;
-            max-width: 500px;
             opacity: 1;
             transform: scale(1);
             transition: all 0.8s ease;
-            padding: 50px;
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 16px;
+            padding: 30px 20px;
             box-shadow: 0 10px 30px rgba(255, 102, 178, 0.2);
         }
 
         .intro h1 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
             color: var(--hello-kitty-red);
             text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
         }
 
         .intro p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1rem;
+            margin-bottom: 25px;
             color: #555;
         }
 
@@ -112,9 +226,9 @@
             background-color: var(--hello-kitty-red);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 30px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
             outline: none;
             box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
@@ -122,42 +236,17 @@
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
+            -webkit-appearance: none;
         }
 
-        .start-btn:hover {
-            background-color: var(--hello-kitty-pink);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
-        }
-
-        .start-btn:hover span {
-            opacity: 0;
-        }
-
-        .start-btn::after {
-            content: "🤍";
-            font-size: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .start-btn:hover::after {
-            top: 10px;
-            opacity: 1;
-        }
-
-        /* Стили для открытки */
+        /* Карточка */
         .card-container {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.5);
             opacity: 0;
-            width: 100%;
+            width: calc(100% - 40px);
             max-width: 500px;
             perspective: 1000px;
             transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -165,6 +254,230 @@
             z-index: 10;
         }
 
+        .card {
+            padding: 30px 20px;
+        }
+
+        .card h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .slide-content {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        /* Финальный экран */
+        .final-content {
+            padding: 30px 20px;
+        }
+
+        .final-content h2 {
+            font-size: 1.8rem;
+        }
+
+        .final-content p {
+            font-size: 1rem;
+        }
+
+        .kitty-image {
+            width: 120px;
+        }
+
+        /* Медиа-запросы для разных устройств */
+        /* iPhone 5/SE и маленькие экраны */
+        @media (max-width: 320px) {
+            body {
+                padding: 10px;
+            }
+
+            .intro,
+            .card,
+            .final-content {
+                padding: 20px 15px;
+            }
+
+            .intro h1,
+            .card h1,
+            .final-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .slide-content {
+                font-size: 1rem;
+            }
+
+            .start-btn,
+            .restart-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* iPhone 6/7/8 и подобные */
+        @media (min-width: 321px) and (max-width: 414px) {
+
+            .intro h1,
+            .card h1,
+            .final-content h2 {
+                font-size: 1.7rem;
+            }
+        }
+
+        /* iPhone 6/7/8 Plus и подобные */
+        @media (min-width: 415px) and (max-width: 736px) {
+
+            .intro h1,
+            .card h1,
+            .final-content h2 {
+                font-size: 1.9rem;
+            }
+        }
+
+        /* iPad и планшеты */
+        @media (min-width: 737px) and (max-width: 1024px) {
+
+            .intro,
+            .card,
+            .final-content {
+                max-width: 600px;
+                padding: 40px 30px;
+            }
+
+            .intro h1,
+            .card h1,
+            .final-content h2 {
+                font-size: 2.2rem;
+            }
+
+            .slide-content {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Ландшафтная ориентация на мобильных */
+        @media (max-height: 500px) {
+            body {
+                padding: 10px;
+            }
+
+            .intro,
+            .card,
+            .final-content {
+                padding: 20px 15px;
+                max-width: 90%;
+            }
+
+            .intro h1,
+            .card h1,
+            .final-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .intro p,
+            .slide-content,
+            .final-content p {
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+            }
+
+            .slides-container {
+                min-height: 120px;
+            }
+
+            .start-btn,
+            .restart-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Для устройств с поддержкой hover */
+        @media (hover: hover) {
+            .start-btn:hover {
+                background-color: var(--hello-kitty-pink);
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+            }
+
+            .start-btn:hover span {
+                opacity: 0;
+            }
+
+            .start-btn:hover::after {
+                top: 10px;
+                opacity: 1;
+            }
+
+            .restart-btn:hover {
+                background-color: var(--hello-kitty-pink);
+                transform: translateY(-3px);
+            }
+        }
+
+        /* Ориентация iPhone (портрет/ландшафт) */
+        @media screen and (max-device-width: 812px) and (orientation: landscape) {
+            body {
+                padding: 5px;
+            }
+
+            .intro,
+            .card,
+            .final-content {
+                max-width: 80%;
+                padding: 15px;
+            }
+
+            .intro h1,
+            .card h1,
+            .final-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .intro p,
+            .slide-content,
+            .final-content p {
+                font-size: 0.9rem;
+            }
+
+            .slides-container {
+                min-height: 100px;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Для устройств с маленькой высотой экрана */
+        @media (max-height: 600px) {
+
+            .intro,
+            .card,
+            .final-content {
+                padding: 20px 15px;
+            }
+
+            .intro h1,
+            .card h1,
+            .final-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .intro p,
+            .slide-content,
+            .final-content p {
+                font-size: 0.9rem;
+                margin-bottom: 10px;
+            }
+
+            .slides-container {
+                min-height: 120px;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Остальные стили остаются без изменений */
         .card-container.visible {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
@@ -172,10 +485,8 @@
         }
 
         .card {
-            width: 100%;
             background-color: rgba(255, 255, 255, 0.95);
             border-radius: 16px;
-            padding: 40px 30px;
             text-align: center;
             box-shadow: 0 20px 50px rgba(255, 102, 178, 0.3);
             backdrop-filter: blur(5px);
@@ -207,15 +518,6 @@
             transform: rotateY(0deg);
         }
 
-        .card h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: var(--hello-kitty-red);
-            position: relative;
-            display: inline-block;
-        }
-
         .card h1::after {
             content: "";
             position: absolute;
@@ -234,7 +536,7 @@
             position: relative;
             min-height: 200px;
             overflow: hidden;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .slide {
@@ -259,23 +561,16 @@
             transform: translateX(-50px);
         }
 
-        .slide-content {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #555;
-            font-weight: 500;
-        }
-
         .navigation {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .nav-btn {
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background-color: var(--accent);
             border: 2px solid var(--hello-kitty-pink);
@@ -293,7 +588,7 @@
 
         .heart {
             color: var(--hello-kitty-red);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             display: inline-block;
             animation: pulse 1.5s infinite;
         }
@@ -312,7 +607,6 @@
             }
         }
 
-        /* Финальный экран */
         .final-screen {
             position: fixed;
             top: 0;
@@ -344,17 +638,6 @@
             visibility: visible;
         }
 
-        .final-content {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
         .final-content::before {
             position: absolute;
             font-size: 100px;
@@ -364,58 +647,19 @@
             z-index: -1;
         }
 
-        .final-content h2 {
-            font-size: 2rem;
-            color: var(--hello-kitty-red);
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
-        }
-
-        .final-content p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #555;
-        }
-
-        .kitty-image {
-            width: 150px;
-            height: auto;
-            margin: 20px auto;
-            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
-        }
-
         .restart-btn {
             background-color: var(--hello-kitty-red);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 25px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             outline: none;
             box-shadow: 0 4px 10px rgba(255, 51, 102, 0.3);
             font-weight: bold;
-            margin-top: 20px;
-        }
-
-        .restart-btn:hover {
-            background-color: var(--hello-kitty-pink);
-            transform: translateY(-3px);
+            margin-top: 15px;
+            -webkit-appearance: none;
         }
 
         .hidden {
@@ -424,41 +668,53 @@
             pointer-events: none;
         }
 
-        /* Декоративные элементы */
         .bow {
             position: absolute;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background-color: var(--hello-kitty-red);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             z-index: 5;
-
         }
 
         .bow-1 {
-            top: -15px;
-            left: -15px;
-            border-radius: 20px;
+            top: -10px;
+            left: -10px;
+            border-radius: 15px;
         }
 
         .bow-2 {
-            bottom: -15px;
-            right: -15px;
-            border-radius: 20px;
+            bottom: -10px;
+            right: -10px;
+            border-radius: 15px;
         }
 
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background-color: var(--hello-kitty-pink);
             opacity: 0;
-            border-radius: 20px;
+            border-radius: 15px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -666,6 +922,50 @@
                 }
             }
         }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Функция для обработки движения мыши
+            function handleMouseMove(e) {
+                const { clientX, clientY } = e;
+                const { innerWidth, innerHeight } = window;
+
+                // Получаем все элементы, которые должны реагировать
+                const elements = document.querySelectorAll('.intro, .card, .final-content');
+
+                elements.forEach(el => {
+                    // Получаем позицию и размеры элемента
+                    const rect = el.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+
+                    // Рассчитываем относительное положение мыши
+                    const relX = (clientX - centerX) / rect.width;
+                    const relY = (clientY - centerY) / rect.height;
+
+                    // Применяем трансформацию
+                    el.style.transform = `
+                    perspective(1000px)
+                    rotateX(${relY * -5}deg)
+                    rotateY(${relX * 5}deg)
+                    translateX(${relX * 10}px)
+                    translateY(${relY * 10}px)
+                `;
+                });
+            }
+
+            // Функция для сброса анимации, когда мышь уходит
+            function resetAnimation() {
+                document.querySelectorAll('.intro, .card, .final-content').forEach(el => {
+                    el.style.transform = '';
+                });
+            }
+
+            // Навешиваем обработчики событий
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseout', resetAnimation);
+        });
+
 
         // Запуск при загрузке
         window.addEventListener('DOMContentLoaded', init);
