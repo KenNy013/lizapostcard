@@ -1,0 +1,687 @@
+:root {
+    --primary: #FF85B3;
+    --secondary: rgb(255, 182, 217);
+    --accent: #FFE5F1;
+    --text: #5A3D5C;
+    --hello-kitty-pink: #FF9EC5;
+    --hello-kitty-red: #FF6B8B;
+}
+
+@font-face {
+    font-family: 'Hello';
+    src: url('./fonts/Hello\ Kitty.otf') format('opentype');
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+    background:
+        linear-gradient(-45deg,
+            #FFEEF5 0%,
+            #FFD4E6 25%,
+            #FFB6D9 50%,
+            #FF9EC5 75%,
+            #FFE5F1 100%),
+        radial-gradient(circle at 70% 30%,
+            rgba(255, 214, 230, 0.8) 0%,
+            rgba(255, 214, 230, 0) 40%),
+        radial-gradient(circle at 30% 70%,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(255, 255, 255, 0) 30%);
+    background-size: 400% 400%, 200% 200%, 150% 150%;
+    animation:
+        gradientBG 12s ease infinite,
+        parallaxEffect 20s linear infinite,
+        pulseEffect 15s ease-in-out infinite;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%, 0% 0%, 0% 0%;
+    }
+
+    50% {
+        background-position: 100% 50%, 100% 100%, 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 50%, 0% 0%, 0% 0%;
+    }
+}
+
+@keyframes parallaxEffect {
+
+    0%,
+    100% {
+        background-position: 0% 50%, 0% 0%, 0% 0%;
+    }
+
+    25% {
+        background-position: 0% 50%, 30% 20%, 10% 40%;
+    }
+
+    50% {
+        background-position: 0% 50%, 70% 80%, 60% 30%;
+    }
+
+    75% {
+        background-position: 0% 50%, 40% 60%, 80% 70%;
+    }
+}
+
+@keyframes pulseEffect {
+
+    0%,
+    100% {
+        background-size: 400% 400%, 200% 200%, 150% 150%;
+    }
+
+    50% {
+        background-size: 420% 420%, 220% 220%, 170% 170%;
+    }
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 30%,
+            rgba(255, 255, 255, 0.8) 0%,
+            transparent 2%) 0 0,
+        radial-gradient(circle at 80% 70%,
+            rgba(255, 230, 240, 0.8) 0%,
+            transparent 2%) 0 0;
+    background-size: 200px 200px;
+    animation: sparkle 4s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes sparkle {
+    0% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 0.3;
+        transform: translate(5px, 5px);
+    }
+
+    100% {
+        opacity: 0.7;
+    }
+}
+
+/* Общие стили */
+.intro,
+.slider-container,
+.result-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(255, 102, 178, 0.2);
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.8s ease;
+}
+
+.intro h1 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--hello-kitty-red);
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+}
+
+.intro p {
+    font-size: 1rem;
+    margin-bottom: 25px;
+    color: #555;
+}
+
+.start-btn {
+    background-color: var(--hello-kitty-red);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+    font-weight: bold;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    -webkit-appearance: none;
+}
+
+/* Стили слайдера */
+.slider-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 10;
+}
+
+.slider-container.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    visibility: visible;
+}
+
+.slider-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--hello-kitty-red);
+}
+
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin: 0 auto 20px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    perspective: 1000px;
+}
+
+.slider-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.1s ease-out;
+}
+
+.slider-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--hello-kitty-pink), var(--hello-kitty-red));
+    color: white;
+    transform-style: preserve-3d;
+}
+
+.slide-emoji {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    animation: bounce 1s infinite alternate;
+
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+.slide-text {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.spin-btn {
+    background: linear-gradient(90deg,
+            #FF6B8B, #FF85B3, #FF9EC5, #FFB6D9,
+            #FF9EC5, #FF85B3, #FF6B8B);
+    background-size: 400% 400%;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
+    font-weight: bold;
+    margin-top: 15px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: gradientFlow 8s ease infinite;
+}
+
+.spin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 51, 102, 0.6);
+}
+
+.spin-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(255, 51, 102, 0.4);
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Добавим эффект блика при наведении */
+.spin-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 50%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(30deg);
+    transition: all 0.5s ease;
+}
+
+.spin-btn:hover::after {
+    left: 120%;
+}
+
+/* Стили результата */
+.result-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 20;
+}
+
+.result-container.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    visibility: visible;
+}
+
+.result-title {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: var(--hello-kitty-red);
+}
+
+.result-emoji {
+    font-size: 4rem;
+    margin: 20px 0;
+    animation: bounce 1s infinite alternate;
+
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+.result-text {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    font-weight: 400;
+}
+
+.restart-btn {
+    background: linear-gradient(90deg,
+            #FF6B8B, #FF85B3, #FF9EC5, #FFB6D9,
+            #FF9EC5, #FF85B3, #FF6B8B);
+    background-size: 400% 400%;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(255, 51, 102, 0.4);
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: gradientFlow 8s ease infinite;
+}
+
+.restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 51, 102, 0.6);
+}
+
+.restart-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 8px rgba(255, 51, 102, 0.4);
+}
+
+.restart-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 50%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(30deg);
+    transition: all 0.5s ease;
+}
+
+.restart-btn:hover::after {
+    left: 120%;
+}
+
+.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+}
+
+/* Анимации */
+@keyframes bounce {
+    from {
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        transform: translateY(-20px) scale(1.1);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+/* Конфетти */
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--hello-kitty-pink);
+    opacity: 0;
+    border-radius: 15px;
+}
+
+/* Адаптивность */
+@media (max-width: 400px) {
+    .slider-wrapper {
+        height: 250px;
+    }
+
+    .slide-emoji {
+        font-size: 3rem;
+    }
+
+    .slide-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-height: 600px) {
+    .slider-wrapper {
+        height: 200px;
+        margin-bottom: 10px;
+    }
+
+    .slider-title,
+    .result-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .result-emoji {
+        font-size: 3rem;
+        margin: 15px 0;
+    }
+
+    .result-text {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+}
+
+.slider-wrapper.inactive {
+    filter: blur(9px);
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+
+.floating-compliments {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+
+}
+
+.floating-compliments span {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 40px;
+    font-family: 'Hello', sans-serif;
+    animation: floatFade 6s ease-out forwards;
+
+}
+
+@keyframes floatFade {
+    0% {
+        transform: translateY(0) scale(0.9);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1.1);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-80px);
+        opacity: 0;
+    }
+}
+
+.glowing-box {
+    animation: fadePulse 2s infinite ease-in-out;
+}
+
+
+@keyframes fadePulse {
+    0% {
+        box-shadow:
+            0 0 8px rgba(255, 182, 217, 0.7),
+            0 0 16px rgba(255, 182, 217, 0.5),
+            0 0 24px rgba(255, 182, 217, 0.3);
+    }
+    50% {
+        box-shadow:
+            0 0 8px rgba(255, 182, 217, 0.9),
+            0 0 16px rgba(255, 182, 217, 0.7),
+            0 0 24px rgba(255, 182, 217, 0.5);
+    }
+    100% {
+        box-shadow:
+            0 0 8px rgba(255, 182, 217, 0.7),
+            0 0 16px rgba(255, 182, 217, 0.5),
+            0 0 24px rgba(255, 182, 217, 0.3);
+    }
+}
+
+
+
+
+.secret-container {
+    position: relative;
+    display: inline-block;
+}
+
+.secret-button {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.secret-button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+}
+
+/* Секретное окно (скрыто по умолчанию) */
+.secret-window {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(181, 176, 176, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.5s;
+}
+
+.secret-content {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 80%;
+    max-height: 80%;
+    text-align: center;
+    box-shadow: 0 0 25px rgb(255, 182, 217);
+}
+
+.secret-content img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.close-secret {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ff69b4;
+    cursor: pointer;
+}
+
+.close-secret:hover {
+    color: #ff1493;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Анимация вылета */
+@keyframes flyIn {
+    0% {
+        transform: scale(0.5) translateY(100px);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.secret-content {
+    animation: flyIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Добавляем подсказку при наведении */
+.secret-button::after {
+    content: "Нажми меня!";
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: rgb(255, 182, 217);
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.secret-button:hover::after {
+    opacity: 1;
+}
+
+/* Эффект пульсации для кнопки */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 105, 180, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0);
+    }
+}
+
+.secret-button:active {
+    animation: pulse 0.5s;
+}
